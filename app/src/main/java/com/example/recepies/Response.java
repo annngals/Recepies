@@ -1,11 +1,11 @@
 package com.example.recepies;
 
 public class Response {
-    int total;
+    int count;
     Hit[] hits;
 
     @Override
     public String toString() {
-        return "totalHits = " + total;
+        return "totalHits = " + count;
     }
 }

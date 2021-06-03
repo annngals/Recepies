@@ -46,19 +46,23 @@ public class MyAdapter extends BaseAdapter {
     public View getView(int i, View v, ViewGroup viewGroup) {
         v = LayoutInflater.from(context).inflate(R.layout.item, viewGroup, false);
         TextView textView = v.findViewById(R.id.img_text);
+        ImageView imageView = v.findViewById(R.id.img);
 
         Hit hit = hits[i];
-        textView.setText("ID: " + hit.id + "\nLabel:" + hit.label);
+        textView.setText("\nLabel:" + hit.label);
+        downloadImage(api, hit, imageView);
 
         return v;
     }
 
-    public void downloadImage(MainActivity.RecepieAPI api, Hit hit) {
-        Call<ResponseBody> getImage = api.getImage(hit.previewURL);
+    public void downloadImage(MainActivity.RecepieAPI api, Hit hit, final ImageView imageView) {
+        Call<ResponseBody> getImage = api.getImage(hit.image);
 
         Callback<ResponseBody> imageCallback = new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                imageView.setImageBitmap(bmp);
             }
 
             @Override

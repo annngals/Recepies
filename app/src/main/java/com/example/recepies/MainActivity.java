@@ -21,7 +21,7 @@ import retrofit2.http.Url;
 
 public class MainActivity extends AppCompatActivity {
 
-    String API_URL = "https://api.edamam.com/search";
+    String API_URL = "https://api.edamam.com/";
     String ID = "7785f9a7";
     String key = "49b6f38bbf46a9addde12dabd41f1971";
     MainActivity mainActivity = this;
@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     interface RecepieAPI {
-        @GET("/api")
-        Call<Response> search(@Query("q") String q, @Query("ID") String ID, @Query("key") String key);
+        @GET("search")
+        Call<Response> search(@Query("q") String q, @Query("app_id") String ID, @Query("app_key") String key);
         @GET()
-        Call<ResponseBody> getImage (@Url String pictureURL);
+        Call<ResponseBody> getImage (@Url String image);
     }
 
     public void startSearch(String text) {
@@ -55,14 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
         RecepieAPI api = retrofit.create(RecepieAPI.class);
 
-        Retrofit noRetrofit = new Retrofit.Builder().baseUrl(API_URL).build();
+        Retrofit noRetrofit = new Retrofit.Builder().baseUrl(API_URL).build(); //no gson
         final RecepieAPI noApi = noRetrofit.create(RecepieAPI.class);
 
-        Call<Response> call = api.search(text, key, ID);
+        Log.d("mytag", "api: "+text+" "+ID+" "+key);
+        Call<Response> call = api.search(text, ID, key);
         Callback<Response> callback = new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 Response r = response.body();
+                Log.d("mytag", "restonse: "+r);
 
                 numberOfHits.setText("Number of hits: " + r.hits.length);
                 MyAdapter adapter = new MyAdapter(mainActivity, r.hits, noApi);
