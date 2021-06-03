@@ -49,14 +49,14 @@ public class MyAdapter extends BaseAdapter {
         ImageView imageView = v.findViewById(R.id.img);
 
         Hit hit = hits[i];
-        textView.setText("\nLabel:" + hit.label);
+        textView.setText("\nLabel:" + hit.recipe.label);
         downloadImage(api, hit, imageView);
 
         return v;
     }
 
     public void downloadImage(MainActivity.RecepieAPI api, Hit hit, final ImageView imageView) {
-        Call<ResponseBody> getImage = api.getImage(hit.image);
+        Call<ResponseBody> getImage = api.getImage(hit.recipe.image);
 
         Callback<ResponseBody> imageCallback = new Callback<ResponseBody>() {
             @Override

@@ -1,14 +1,12 @@
 package com.example.recepies;
 
 public class Hit {
-    String label;
-    String image;
+    Recepie recipe;
 
     @Override
     public String toString() {
         return "Hit{" +
-                ", label='" + label + '\'' +
-                ", image='" + image + '\'' +
+                "recepie=" + recipe + '\'' +
                 '}';
     }
 }
